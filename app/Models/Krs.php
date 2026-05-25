@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Krs extends Model
 {
-     protected $table = 'krs';
+    use HasFactory;
+
+    protected $table = 'krs';
 
     protected $fillable = [
         'nama_mahasiswa',

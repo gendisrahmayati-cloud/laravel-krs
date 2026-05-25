@@ -7,88 +7,99 @@ use Illuminate\Http\Request;
 
 class KrsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Menampilkan semua data
     public function index()
     {
-    $krs = Krs::all();
+        $krs = Krs::all();
 
-    return view('krs.index', compact('krs'));
+        return view('krs.index', compact('krs'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Form tambah data
     public function create()
     {
         return view('krs.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Simpan data
     public function store(Request $request)
     {
         $request->validate([
-        'nama_mahasiswa' => 'required',
-        'nim' => 'required',
-        'semester' => 'required',
-        'daftar_mata_kuliah' => 'required',
-        'total_sks' => 'required'
-    ]);
+            'nama_mahasiswa' => 'required',
+            'nim' => 'required',
+            'semester' => 'required|numeric',
+            'daftar_mata_kuliah' => 'required',
+            'total_sks' => 'required|numeric'
+        ], [
+            'nama_mahasiswa.required' => 'Nama mahasiswa wajib diisi',
+            'nim.required' => 'NIM wajib diisi',
+            'semester.required' => 'Semester wajib diisi',
+            'daftar_mata_kuliah.required' => 'Mata kuliah wajib diisi',
+            'total_sks.required' => 'SKS wajib diisi'
+        ]);
 
-    Krs::create([
-        'nama_mahasiswa' => $request->nama_mahasiswa,
-        'nim' => $request->nim,
-        'semester' => $request->semester,
-        'daftar_mata_kuliah' => $request->daftar_mata_kuliah,
-        'total_sks' => $request->total_sks,
-        'status_persetujuan' => 'Pending'
-    ]);
+        Krs::create([
+            'nama_mahasiswa' => $request->nama_mahasiswa,
+            'nim' => $request->nim,
+            'semester' => $request->semester,
+            'daftar_mata_kuliah' => $request->daftar_mata_kuliah,
+            'total_sks' => $request->total_sks,
+            'status_persetujuan' => 'Pending'
+        ]);
 
-    return redirect('/krs');
+        return redirect('/krs')
+            ->with('success', 'Data berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Krs $krs)
+    // Detail data
+    public function show($id)
     {
-        //
+        $krs = Krs::findOrFail($id);
+
+        return view('krs.show', compact('krs'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Krs $id)
+    // Form edit
+    public function edit($id)
     {
         $krs = Krs::findOrFail($id);
 
         return view('krs.edit', compact('krs'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Krs $id)
+    // Update data
+    public function update(Request $request, $id)
     {
+        $request->validate([
+            'nama_mahasiswa' => 'required',
+            'nim' => 'required',
+            'semester' => 'required|numeric',
+            'daftar_mata_kuliah' => 'required',
+            'total_sks' => 'required|numeric'
+        ]);
+
         $krs = Krs::findOrFail($id);
 
-        $krs->update($request->all());
+        $krs->update([
+            'nama_mahasiswa' => $request->nama_mahasiswa,
+            'nim' => $request->nim,
+            'semester' => $request->semester,
+            'daftar_mata_kuliah' => $request->daftar_mata_kuliah,
+            'total_sks' => $request->total_sks
+        ]);
 
-        return redirect('/krs');
+        return redirect('/krs')
+            ->with('success', 'Data berhasil diupdate');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Krs $id)
+    // Hapus data
+    public function destroy($id)
     {
         $krs = Krs::findOrFail($id);
 
         $krs->delete();
 
-        return redirect('/krs');
+        return redirect('/krs')
+            ->with('success', 'Data berhasil dihapus');
     }
 }

@@ -6,7 +6,6 @@
 
 <div style="
 background:#f8d7da;
-color:#721c24;
 padding:15px;
 margin-bottom:15px;
 border-radius:5px">
@@ -25,7 +24,6 @@ border-radius:5px">
 
 @endif
 
-
 <style>
     .form-container {
         width: 500px;
@@ -42,8 +40,6 @@ border-radius:5px">
 
     label {
         font-weight: bold;
-        display: block;
-        margin-bottom: 5px;
     }
 
     input,
@@ -52,15 +48,10 @@ border-radius:5px">
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
-        box-sizing: border-box;
-    }
-
-    textarea {
-        height: 100px;
     }
 
     button {
-        background-color: #28a745;
+        background-color: #007bff;
         color: white;
         padding: 10px 20px;
         border: none;
@@ -69,82 +60,54 @@ border-radius:5px">
     }
 
     button:hover {
-        background-color: #218838;
+        background-color: #0056b3;
     }
 </style>
 
-
 <div class="form-container">
 
-    <h2>Tambah KRS</h2>
+    <h2>Edit KRS</h2>
 
-    <form action="/krs" method="POST">
+    <form action="/krs/{{ $krs->id }}" method="POST">
 
         @csrf
+        @method('PUT')
 
         <div class="form-group">
-
             <label>Nama Mahasiswa</label>
-
-            <input
-                type="text"
+            <input type="text"
                 name="nama_mahasiswa"
-                value="{{ old('nama_mahasiswa') }}">
-
+                value="{{ $krs->nama_mahasiswa }}">
         </div>
 
-
         <div class="form-group">
-
             <label>NIM</label>
-
-            <input
-                type="text"
+            <input type="text"
                 name="nim"
-                value="{{ old('nim') }}">
-
+                value="{{ $krs->nim }}">
         </div>
 
-
         <div class="form-group">
-
             <label>Semester</label>
-
-            <input
-                type="number"
+            <input type="number"
                 name="semester"
-                value="{{ old('semester') }}">
-
+                value="{{ $krs->semester }}">
         </div>
 
-
         <div class="form-group">
-
             <label>Daftar Mata Kuliah</label>
-
-            <textarea
-                name="daftar_mata_kuliah"
-                placeholder="Contoh: Pemrograman Web, Basis Data, Matematika Diskrit">{{ old('daftar_mata_kuliah') }}</textarea>
-
+            <textarea name="daftar_mata_kuliah">{{ $krs->daftar_mata_kuliah }}</textarea>
         </div>
-
 
         <div class="form-group">
-
             <label>Total SKS</label>
-
-            <input
-                type="number"
+            <input type="number"
                 name="total_sks"
-                value="{{ old('total_sks') }}">
-
+                value="{{ $krs->total_sks }}">
         </div>
-
 
         <button type="submit">
-
-            Simpan
-
+            Update
         </button>
 
     </form>

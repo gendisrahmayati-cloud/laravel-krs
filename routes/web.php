@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KrsController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/krs');
 });
 
 Route::resource('krs', KrsController::class);
