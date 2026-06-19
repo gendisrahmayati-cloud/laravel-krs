@@ -1,154 +1,55 @@
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Formulir Pengajuan KRS Mahasiswa') }}
+        </h2>
+    </x-slot>
 
-@section('content')
+    <div class="py-12">
+        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-200">
+                <div class="p-6 text-gray-900">
+                    
+                    <form method="POST" action="{{ route('krs.store') }}" class="space-y-6">
+                        @csrf
 
-@if($errors->any())
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Nama Mahasiswa</label>
+                            <input type="text" value="{{ Auth::user()->name }}" class="mt-1 block w-full rounded-md border-gray-300 bg-gray-100 text-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" readonly>
+                            <input type="hidden" name="mahasiswa_id" value="{{ Auth::user()->id }}">
+                        </div>
 
-<div style="
-background:#f8d7da;
-color:#721c24;
-padding:15px;
-margin-bottom:15px;
-border-radius:5px">
+                        <div>
+                            <label for="mata_kuliah" class="block text-sm font-medium text-gray-700">Mata Kuliah</label>
+                            <input type="text" name="mata_kuliah" id="mata_kuliah" required placeholder="Contoh: Pemrograman Framework Web" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        </div>
 
-    <ul>
+                        <div>
+                            <label for="sks" class="block text-sm font-medium text-gray-700">Jumlah SKS</label>
+                            <select name="sks" id="sks" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                <option value="2">2 SKS</option>
+                                <option value="3">3 SKS</option>
+                                <option value="4">4 SKS</option>
+                            </select>
+                        </div>
 
-        @foreach($errors->all() as $error)
+                        <div>
+                            <label for="kelas" class="block text-sm font-medium text-gray-700">Kelas</label>
+                            <input type="text" name="kelas" id="kelas" required placeholder="Contoh: TI-4A" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        </div>
 
-        <li>{{ $error }}</li>
+                        <div class="flex justify-end space-x-3 pt-4 border-t border-gray-100">
+                            <a href="{{ route('krs.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:bg-gray-300 active:bg-gray-400 transition ease-in-out duration-150">
+                                Batal
+                            </a>
+                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 transition ease-in-out duration-150 shadow-sm">
+                                Simpan Pengajuan
+                            </button>
+                        </div>
+                    </form>
 
-        @endforeach
-
-    </ul>
-
-</div>
-
-@endif
-
-
-<style>
-    .form-container {
-        width: 500px;
-        margin: auto;
-        padding: 20px;
-        border-radius: 10px;
-        background-color: #f4f4f4;
-        box-shadow: 0px 0px 10px gray;
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    label {
-        font-weight: bold;
-        display: block;
-        margin-bottom: 5px;
-    }
-
-    input,
-    textarea {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-sizing: border-box;
-    }
-
-    textarea {
-        height: 100px;
-    }
-
-    button {
-        background-color: #28a745;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #218838;
-    }
-</style>
-
-
-<div class="form-container">
-
-    <h2>Tambah KRS</h2>
-
-    <form action="/krs" method="POST">
-
-        @csrf
-
-        <div class="form-group">
-
-            <label>Nama Mahasiswa</label>
-
-            <input
-                type="text"
-                name="nama_mahasiswa"
-                value="{{ old('nama_mahasiswa') }}">
-
+                </div>
+            </div>
         </div>
-
-
-        <div class="form-group">
-
-            <label>NIM</label>
-
-            <input
-                type="text"
-                name="nim"
-                value="{{ old('nim') }}">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Semester</label>
-
-            <input
-                type="number"
-                name="semester"
-                value="{{ old('semester') }}">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Daftar Mata Kuliah</label>
-
-            <textarea
-                name="daftar_mata_kuliah"
-                placeholder="Contoh: Pemrograman Web, Basis Data, Matematika Diskrit">{{ old('daftar_mata_kuliah') }}</textarea>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Total SKS</label>
-
-            <input
-                type="number"
-                name="total_sks"
-                value="{{ old('total_sks') }}">
-
-        </div>
-
-
-        <button type="submit">
-
-            Simpan
-
-        </button>
-
-    </form>
-
-</div>
-
-@endsection
+    </div>
+</x-app-layout>

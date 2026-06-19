@@ -19,6 +19,10 @@ return new class extends Migration
             $table->text('daftar_mata_kuliah');
             $table->integer('total_sks');
             $table->string('status_persetujuan')->default('Pending');
+
+            $table->foreignId('dosen_id')->constrained('dosens')->onDelete('cascade');
+
+            $table->string('bukti_ukt')->nullable();
             $table->timestamps();
         });
     }

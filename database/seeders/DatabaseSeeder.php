@@ -9,6 +9,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        Krs::factory(15)->create();
+        $this->call(DosenSeeder::class);
     }
 }
