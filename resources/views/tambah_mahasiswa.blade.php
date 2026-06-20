@@ -57,6 +57,19 @@
                     </div>
 
                     <div>
+                        <label for="dosen_id" class="block text-sm font-semibold text-gray-700 mb-1">Dosen Pembimbing Akademik (PA)</label>
+                        <select id="dosen_id" name="dosen_id" 
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" required>
+                            <option value="">-- Pilih Dosen PA --</option>
+                            @foreach($dosens as $dosen)
+                                <option value="{{ $dosen->id }}" {{ old('dosen_id') == $dosen->id ? 'selected' : '' }}>
+                                    {{ $dosen->nama_dosen }} (NIDN: {{ $dosen->nidn }})
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div>
                         <label for="status" class="block text-sm font-semibold text-gray-700 mb-1">Status Keaktifan</label>
                         <select id="status" name="status" 
                                 class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" required>
@@ -77,6 +90,13 @@
                         <p class="text-xs text-gray-500 mb-2">Format dokumen gambar resmi (.png, .jpg, .jpeg) ukuran maksimal 2 Megabytes.</p>
                         <input type="file" id="foto" name="foto" accept="image/*" 
                                class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-md border border-dashed border-gray-300">
+                        <label for="bukti_ukt" class="block text-sm font-semibold text-gray-700 mb-1">Bukti Pembayaran UKT/SPP</label>
+                        <p class="text-xs text-gray-500 mb-2">Format berkas pengajuan (.pdf, .jpg, .jpeg, .png) ukuran maksimal 3 Megabytes.</p>
+                        <input type="file" id="bukti_ukt" name="bukti_ukt" accept=".pdf,image/*" 
+                               class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100" required>
                     </div>
 
                     <div class="flex justify-end pt-4 border-t border-gray-100">

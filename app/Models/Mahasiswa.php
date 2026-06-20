@@ -6,10 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mahasiswa extends Model
 {
-    protected $fillable = ['nim', 'nama', 'prodi_id', 'status', 'alamat', 'foto'];
+    protected $fillable = ['nim',
+    'nama',
+    'prodi_id',
+    'status',
+    'alamat',
+    'foto',
+    'bukti_ukt'
+    ];
 
     public function prodi() 
     { 
         return $this->belongsTo(Prodi::class);
+    }
+
+    public function dosen()
+    {
+        return $this->belongTo(Dosen::class, 'dosen_id');
     }
 }
