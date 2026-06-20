@@ -48,7 +48,7 @@
                         </a>
                         @endif
 
-                        <a href="{{ url('/krs') }}" class="flex items-center p-4 bg-gray-50 hover:bg-indigo-50 border border-gray-200 hover:border-indigo-300 rounded-lg transition group">
+                        <a href="{{ url('/mahasiswa') }}" class="flex items-center p-4 bg-gray-50 hover:bg-indigo-50 border border-gray-200 hover:border-indigo-300 rounded-lg transition group">
                             <div class="p-3 bg-indigo-500 rounded-lg text-white group-hover:bg-indigo-600">
                                 📝
                             </div>
