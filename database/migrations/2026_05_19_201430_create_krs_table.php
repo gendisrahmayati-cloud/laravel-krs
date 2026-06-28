@@ -13,16 +13,23 @@ return new class extends Migration
     {
         Schema::create('krs', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_mahasiswa');
-            $table->string('nim');
-            $table->integer('semester');
-            $table->text('daftar_mata_kuliah');
-            $table->integer('total_sks');
-            $table->string('status_persetujuan')->default('Pending');
 
-            $table->foreignId('dosen_id')->constrained('dosens')->onDelete('cascade');
+            $table->foreignId('mahasiswa_id')->constrained()->onDelete('cascade');
 
-            $table->string('bukti_ukt')->nullable();
+            $table->string('semester');
+
+            $table->string('tahun_ajaran');
+
+            $table->integer('total_sks')->default(0);
+
+            $table->string('bukti_ukt');
+
+            $table->enum('status',[
+                'Menunggu',
+                'Disetujui',
+                'Ditolak'
+            ])->default('Menunggu');
+
             $table->timestamps();
         });
     }

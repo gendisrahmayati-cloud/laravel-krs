@@ -131,21 +131,38 @@
 
                 <td>
 
-                    <span class="status">
-
-                        {{ $item->status_persetujuan }}
-
-                    </span>
+                    @if($item->status_persetujuan == 'ACC')
+                        <span style="background:green;color:white;padding:5px 10px;border-radius:5px;">
+                            ACC
+                        </span>
+                    @else
+                        <span style="background:orange;color:white;padding:5px 10px;border-radius:5px;">
+                            Pending
+                        </span>
+                    @endif
 
                 </td>
 
                 <td>
 
-                    <a href="/krs/{{ $item->id }}/edit"
-                        class="btn-edit">
+                    {{-- Tombol ACC hanya muncul jika status masih Pending --}}
+                    @if($item->status_persetujuan == 'Pending')
+                        <form action="/krs/{{ $item->id }}/acc" method="POST" style="display:inline;">
+                            @csrf
+                            @method('PUT')
 
+                            <button type="submit"
+                                onclick="return confirm('ACC pengajuan KRS ini?')"
+                                style="background:green;color:white;padding:8px 10px;border:none;border-radius:5px;cursor:pointer;">
+                                ACC
+                            </button>
+                        </form>
+
+                        <br><br>
+                    @endif
+
+                    <a href="/krs/{{ $item->id }}/edit" class="btn-edit">
                         Edit
-
                     </a>
 
                     <br><br>
@@ -157,11 +174,8 @@
                         @csrf
                         @method('DELETE')
 
-                        <button type="submit"
-                            class="btn-hapus">
-
+                        <button type="submit" class="btn-hapus">
                             Hapus
-
                         </button>
 
                     </form>

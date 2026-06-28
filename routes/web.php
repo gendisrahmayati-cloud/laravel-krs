@@ -5,6 +5,7 @@ use App\Http\Controllers\KrsController;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\MahasiswaController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MataKuliahController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,6 +32,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/mahasiswa/create', [MahasiswaController::class, 'create'])->name('mahasiswa.create');
     Route::post('/mahasiswa', [MahasiswaController::class, 'store'])->name('mahasiswa.store');
     
+    Route::get('/mahasiswa/{id}/edit', [MahasiswaController::class, 'edit'])->name('mahasiswa.edit');
+    Route::put('/mahasiswa/{id}', [MahasiswaController::class, 'update'])->name('mahasiswa.update');
+    Route::delete('/mahasiswa/{id}', [MahasiswaController::class, 'destroy'])->name('mahasiswa.destroy');
+    
     // Akses melihat daftar Dosen
     Route::get('/dosen', [DosenController::class, 'index'])->name('dosen.index');
 
@@ -50,3 +55,21 @@ Route::middleware('auth')->group(function () {
 
 // Memuat rute bawaan Laravel Breeze (Login, Register, Logout)
 require __DIR__ . '/auth.php';
+
+//bagian mata kuliah
+Route::get('/mata-kuliah', [MataKuliahController::class,'index']);
+Route::get('/mata-kuliah/create', [MataKuliahController::class,'create']);
+Route::post('/mata-kuliah', [MataKuliahController::class,'store']);
+
+Route::get('/mata-kuliah/{id}/edit',[MataKuliahController::class,'edit']);
+Route::put('/mata-kuliah/{id}',[MataKuliahController::class,'update']);
+Route::delete('/mata-kuliah/{id}',[MataKuliahController::class,'destroy']);
+
+// ===================== KRS =====================
+Route::get('/krs', [KrsController::class, 'index'])->name('krs.index');
+Route::get('/krs/create', [KrsController::class, 'create'])->name('krs.create');
+Route::post('/krs', [KrsController::class, 'store'])->name('krs.store');
+Route::get('/krs/{id}/edit', [KrsController::class, 'edit'])->name('krs.edit');
+Route::put('/krs/{id}', [KrsController::class, 'update'])->name('krs.update');
+Route::delete('/krs/{id}', [KrsController::class, 'destroy'])->name('krs.destroy');
+Route::put('/krs/{id}/acc', [KrsController::class, 'acc'])->name('krs.acc');

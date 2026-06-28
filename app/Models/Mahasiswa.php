@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mahasiswa extends Model
 {
-    protected $fillable = ['nim',
+    protected $fillable = [
+    'nim',
     'nama',
     'prodi_id',
+    'dosen_id',
     'status',
     'alamat',
     'foto',
@@ -22,6 +24,6 @@ class Mahasiswa extends Model
 
     public function dosen()
     {
-        return $this->belongTo(Dosen::class, 'dosen_id');
+        return $this->belongsTo(Dosen::class, 'dosen_id');
     }
 }

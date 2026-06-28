@@ -2,10 +2,10 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Daftar Data Mahasiswa') }}
+                {{ __('Daftar Pengajuan Krs') }}
             </h2>
             <a href="{{ url('/mahasiswa/create') }}" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded shadow-sm transition">
-                + Tambah Mahasiswa Baru
+                + Ajukan Krs
             </a>
         </div>
     </x-slot>
@@ -25,12 +25,11 @@
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200">
                             <tr>
                                 <th scope="col" class="px-6 py-3 border-r text-center">No</th>
-                                <th scope="col" class="px-6 py-3 border-r text-center">Pasfoto</th>
                                 <th scope="col" class="px-6 py-3 border-r">NIM</th>
                                 <th scope="col" class="px-6 py-3 border-r">Nama</th>
-                                <th scope="col" class="px-6 py-3 border-r">Program Studi</th>
-                                <th scope="col" class="px-6 py-3 border-r text-center">Status</th>
-                                <th scope="col" class="px-6 py-3 border-r">Alamat</th>
+                                <th scope="col" class="px-6 py-3 border-r">Mata Kuliah</th>
+                                <th scope="col" class="px-6 py-3 border-r text-center">Dosen PA</th>
+                                <th scope="col" class="px-6 py-3 border-r">Status Krs</th>
                                 <th scope="col" class="px-6 py-3 text-center">Aksi</th>
                             </tr>
                         </thead>
