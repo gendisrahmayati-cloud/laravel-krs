@@ -6,11 +6,17 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm rounded-lg p-6">
 
+                @if(session('error'))
+                    <div class="mb-4 bg-red-100 text-red-700 p-3 rounded">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
                 @if ($errors->any())
-                    <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                    <div class="mb-4 bg-red-100 text-red-700 p-3 rounded">
                         <ul>
                             @foreach ($errors->all() as $error)
                                 <li>• {{ $error }}</li>
@@ -22,45 +28,89 @@
                 <form action="{{ route('krs.store') }}" method="POST">
                     @csrf
 
-                    <div class="mb-4">
-                        <label class="block font-semibold mb-2">
-                            Nama Mahasiswa
+                    {{-- DATA MAHASISWA --}}
+                    <div class="bg-gray-100 rounded-lg p-5 mb-6">
+
+                        <h3 class="font-bold text-lg mb-4">
+                            Data Mahasiswa
+                        </h3>
+
+                        <div class="mb-3">
+                            <label class="font-semibold">
+                                Nama
+                            </label>
+
+                            <input
+                                type="text"
+                                value="{{ $mahasiswa->nama }}"
+                                class="w-full rounded border-gray-300 bg-gray-200"
+                                readonly>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="font-semibold">
+                                NIM
+                            </label>
+
+                            <input
+                                type="text"
+                                value="{{ $mahasiswa->nim }}"
+                                class="w-full rounded border-gray-300 bg-gray-200"
+                                readonly>
+                        </div>
+
+                        <div>
+                            <label class="font-semibold">
+                                Dosen PA
+                            </label>
+
+                            <input
+                                type="text"
+                                value="{{ $mahasiswa->dosen->nama_dosen }}"
+                                class="w-full rounded border-gray-300 bg-gray-200"
+                                readonly>
+                        </div>
+
+                    </div>
+
+                    {{-- PILIH MATA KULIAH --}}
+                    <div class="mb-6">
+
+                        <label class="block font-bold text-lg mb-3">
+                            Pilih Mata Kuliah
                         </label>
 
-                        <input
-                            type="text"
-                            name="nama_mahasiswa"
-                            value="{{ old('nama_mahasiswa', Auth::user()->name) }}"
-                            class="w-full rounded border-gray-300"
-                            required>
+                        @foreach($mataKuliahs as $mk)
+
+                            <div class="mb-2">
+
+                                <label class="flex items-center gap-3">
+
+                                    <input
+                                        type="checkbox"
+                                        name="mata_kuliah[]"
+                                        value="{{ $mk->id }}">
+
+                                    <span class="font-semibold">
+                                        {{ $mk->kode_mk }}
+                                    </span>
+
+                                    -
+
+                                    {{ $mk->nama_mk }}
+                                    ({{ $mk->sks }} SKS)
+
+                                </label>
+
+                            </div>
+
+                        @endforeach
+
                     </div>
 
-                    <div class="mb-4">
-                        <label class="block font-semibold mb-2">
-                            NIM
-                        </label>
+                    {{-- SEMESTER --}}
+                    <div class="mb-6">
 
-                        <input
-                            type="text"
-                            name="nim"
-                            value="{{ old('nim') }}"
-                            class="w-full rounded border-gray-300"
-                            required>
-                    </div>
-
-                    <div class="mt-4">
-                        <label>Dosen PA</label>
-
-                        <select name="dosen_id" class="mt-1 block w-full rounded-md border-gray-300">
-                            @foreach($dosens as $dosen)
-                                <option value="{{ $dosen->id }}">
-                                    {{ $dosen->nama_dosen }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="mb-4">
                         <label class="block font-semibold mb-2">
                             Semester
                         </label>
@@ -71,48 +121,25 @@
                             value="{{ old('semester') }}"
                             class="w-full rounded border-gray-300"
                             required>
+
                     </div>
 
-                    <div class="mb-4">
-                        <label class="block font-semibold mb-2">
-                            Daftar Mata Kuliah
-                        </label>
-
-                        <textarea
-                            name="daftar_mata_kuliah"
-                            rows="4"
-                            class="w-full rounded border-gray-300"
-                            placeholder="Contoh:
-                                        - Pemrograman Framework Web
-                                        - Data Mining
-                                        - Kecerdasan Buatan"
-                            required>{{ old('daftar_mata_kuliah') }}</textarea>
-                    </div>
-
-                    <div class="mb-6">
-                        <label class="block font-semibold mb-2">
-                            Total SKS
-                        </label>
-
-                        <input
-                            type="number"
-                            name="total_sks"
-                            value="{{ old('total_sks') }}"
-                            class="w-full rounded border-gray-300"
-                            required>
-                    </div>
-
+                    {{-- TOMBOL --}}
                     <div class="flex justify-end gap-3">
 
                         <a href="{{ route('krs.index') }}"
                             class="bg-gray-500 text-white px-5 py-2 rounded hover:bg-gray-600">
+
                             Batal
+
                         </a>
 
                         <button
                             type="submit"
                             class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700">
+
                             Simpan Pengajuan
+
                         </button>
 
                     </div>
@@ -122,4 +149,5 @@
             </div>
         </div>
     </div>
+
 </x-app-layout>

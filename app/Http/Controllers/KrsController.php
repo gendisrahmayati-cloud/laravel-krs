@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Krs;
 use Illuminate\Http\Request;
 use App\Models\Dosen;
+use App\Models\Mahasiswa;
+use Illuminate\Support\Facades\Auth;
+use App\Models\MataKuliah;
 
 class KrsController extends Controller
 {
@@ -19,42 +22,47 @@ class KrsController extends Controller
     // Form tambah data
     public function create()
     {
-        $dosens = Dosen::all();
+        $mahasiswa = auth()->user()->mahasiswa;
 
-        return view('krs.create', compact('dosens'));
+        $mataKuliahs = MataKuliah::all();
+
+        return view('krs.create', compact(
+            'mahasiswa',
+            'mataKuliahs'
+        ));
     }
 
     // Simpan data
     public function store(Request $request)
     {
         $request->validate([
-            'nama_mahasiswa' => 'required',
-            'nim' => 'required',
             'semester' => 'required|numeric',
-            'daftar_mata_kuliah' => 'required',
-            'total_sks' => 'required|numeric',
-            'dosen_id' => 'required'
-        ], [
-            'nama_mahasiswa.required' => 'Nama mahasiswa wajib diisi',
-            'nim.required' => 'NIM wajib diisi',
-            'semester.required' => 'Semester wajib diisi',
-            'daftar_mata_kuliah.required' => 'Mata kuliah wajib diisi',
-            'total_sks.required' => 'SKS wajib diisi',
-            'dosen_id.required' => 'Dosen PA wajib dipilih'
+            'mata_kuliah' => 'required|array',
         ]);
+
+        $mahasiswa = auth()->user()->mahasiswa;
+        $mataKuliah = MataKuliah::whereIn('id', $request->mata_kuliah)->get();
+        $daftarMK = $mataKuliah->pluck('nama_mata_kuliah')->implode(', ');
+        $totalSKS = $mataKuliah->sum('sks');
+
+        if (!$mahasiswa) {
+            return back()->with('error', 'Data mahasiswa belum tersedia.');
+        }
+
+        $daftarMK = implode(', ', $request->mata_kuliah);
 
         Krs::create([
-            'nama_mahasiswa' => $request->nama_mahasiswa,
-            'nim' => $request->nim,
+            'nama_mahasiswa' => $mahasiswa->nama,
+            'nim' => $mahasiswa->nim,
             'semester' => $request->semester,
-            'daftar_mata_kuliah' => $request->daftar_mata_kuliah,
-            'total_sks' => $request->total_sks,
-            'dosen_id' => $request->dosen_id,
-            'status_persetujuan' => 'Pending'
+            'daftar_mata_kuliah' => $daftarMK,
+            'total_sks' => $totalSKS,
+            'dosen_id' => $mahasiswa->dosen_id,
+            'bukti_ukt' => $mahasiswa->bukti_ukt,
+            'status_persetujuan' => 'Pending',
         ]);
 
-        return redirect('/krs')
-            ->with('success', 'Data berhasil ditambahkan');
+        return redirect('/krs')->with('success', 'Pengajuan KRS berhasil dikirim');
     }
 
     // Detail data
@@ -90,7 +98,7 @@ class KrsController extends Controller
             'nama_mahasiswa' => $request->nama_mahasiswa,
             'nim' => $request->nim,
             'semester' => $request->semester,
-            'daftar_mata_kuliah' => $request->daftar_mata_kuliah,
+            'daftar_mata_kuliah' => $daftarMK,
             'total_sks' => $request->total_sks
         ]);
 

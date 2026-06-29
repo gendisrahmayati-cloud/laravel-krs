@@ -3,12 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Krs extends Model
 {
-    use HasFactory;
-
     protected $table = 'krs';
 
     protected $fillable = [
@@ -17,6 +14,13 @@ class Krs extends Model
         'semester',
         'daftar_mata_kuliah',
         'total_sks',
+        'dosen_id',
+        'bukti_ukt',
         'status_persetujuan'
     ];
+
+    public function dosen()
+    {
+        return $this->belongsTo(Dosen::class);
+    }
 }
